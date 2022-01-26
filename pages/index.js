@@ -1,36 +1,7 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components'
 import appConfig from '../config.json'
-
-function GlobalStyle() {
-  return (
-    <style global jsx>{`
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      body {
-        font-family: 'Open Sans', sans-serif;
-      }
-      /* App fit Height */
-      html,
-      body,
-      #__next {
-        min-height: 100vh;
-        display: flex;
-        flex: 1;
-      }
-      #__next {
-        flex: 1;
-      }
-      #__next > * {
-        flex: 1;
-      }
-      /* ./App fit Height */
-    `}</style>
-  )
-}
+import React from 'react'
+import { useRouter } from 'next/router'
 
 function Titulo(props) {
   const Tag = props.tag || 'h1'
@@ -64,16 +35,23 @@ function Titulo(props) {
 //
 //export default HomePage
 
-
-
-
 export default function PaginaInicial() {
-  const username = 'italoengdev'
+  const [username, setUsername] = React.useState('italoengdev')
+  const roteamento = useRouter()
+  const pageGit = `https://api.github.com/users/${username}`
+
+  fetch(pageGit)
+    .then(response => response.json())
+    .then(data => {
+      appConfig.name = data.name
+    })
+  let icon =
+    username.length > 2
+      ? `https://github.com/${username}.png`
+      : `https://cdn.neemo.com.br/uploads/settings_webdelivery/logo/2496/not-found-image-15383864787lu.jpg`
 
   return (
-    
     <>
-      <GlobalStyle />
       <Box
         styleSheet={{
           display: 'flex',
@@ -81,7 +59,7 @@ export default function PaginaInicial() {
           justifyContent: 'center',
           backgroundColor: appConfig.theme.colors.primary[500],
           backgroundImage:
-            'url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)',
+            'url(https://i.pinimg.com/originals/2a/65/6b/2a656b330532432caf1742c8586f7fff.jpg)',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundBlendMode: 'multiply'
@@ -108,6 +86,12 @@ export default function PaginaInicial() {
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={function (infosDoEvento) {
+              infosDoEvento.preventDefault()
+              console.log('Alguém submeteu o form')
+              roteamento.push('/chat')
+              // window.location.href = '/chat';
+            }}
             styleSheet={{
               display: 'flex',
               flexDirection: 'column',
@@ -130,6 +114,15 @@ export default function PaginaInicial() {
             </Text>
 
             <TextField
+              value={username}
+              onChange={function (event) {
+                console.log('usuario digitou', event.target.value)
+                // Onde ta o valor?
+                const valor = event.target.value
+                // Trocar o valor da variavel
+                // através do React e avise quem precisa
+                setUsername(valor)
+              }}
               fullWidth
               textFieldColors={{
                 neutral: {
@@ -175,7 +168,7 @@ export default function PaginaInicial() {
                 borderRadius: '50%',
                 marginBottom: '16px'
               }}
-              src={`https://github.com/${username}.png`}
+              src={icon}
             />
             <Text
               variant="body4"

@@ -10,9 +10,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@skynexui/components": "^1.23.6",
+    "@skynexui/components": "^1.24.0",
     "next": "^12.0.8",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
-  }
+  },
+  "repository": "git@github.com:italoengdev/imersao_react.git",
+  "author": "italoengdev <italo_saraiva182@hotmail.com>"
 }
