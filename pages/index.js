@@ -57,12 +57,13 @@ export default function PaginaInicial() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: appConfig.theme.colors.primary[500],
+
           backgroundImage:
-            'url(https://i.pinimg.com/originals/2a/65/6b/2a656b330532432caf1742c8586f7fff.jpg)',
+            'url(https://i.imgur.com/3r445nS.gif)',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
-          backgroundBlendMode: 'multiply'
+          backgroundBlendMode: 'multiply',
+          backgroundPosition: 'center'
         }}
       >
         <Box
@@ -102,7 +103,7 @@ export default function PaginaInicial() {
               marginBottom: '32px'
             }}
           >
-            <Titulo tag="h2">Boas vindas de volta!</Titulo>
+            <Titulo tag="h2">Bem vindo de volta Bruxão!</Titulo>
             <Text
               variant="body3"
               styleSheet={{
@@ -128,7 +129,7 @@ export default function PaginaInicial() {
                 neutral: {
                   textColor: appConfig.theme.colors.neutrals[200],
                   mainColor: appConfig.theme.colors.neutrals[900],
-                  mainColorHighlight: appConfig.theme.colors.primary[500],
+                  mainColorHighlight: 'grey',
                   backgroundColor: appConfig.theme.colors.neutrals[800]
                 }
               }}
@@ -139,9 +140,9 @@ export default function PaginaInicial() {
               fullWidth
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals['000'],
-                mainColor: appConfig.theme.colors.primary[500],
+                mainColor: 'grey',
                 mainColorLight: appConfig.theme.colors.primary[400],
-                mainColorStrong: appConfig.theme.colors.primary[600]
+                mainColorStrong: 'orange'
               }}
             />
           </Box>
@@ -179,7 +180,7 @@ export default function PaginaInicial() {
                 borderRadius: '1000px'
               }}
             >
-              {username}
+              {appConfig.name}
             </Text>
           </Box>
           {/* Photo Area */}
