@@ -2,22 +2,54 @@ import { display, margin } from '@mui/system'
 import { Box, Text, TextField, Image, Button } from '@skynexui/components'
 import React from 'react'
 import appConfig from '../config.json'
+import { createClient } from '@supabase/supabase-js'
+import DeleteIcon from '@mui/icons-material/Delete';
+
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMzNjA2MiwiZXhwIjoxOTU4OTEyMDYyfQ.jAu58eM3HIc4fQe5td0y5qJfVp1kOaILO7svD-jZlI4';
+const SUPABASE_URL = 'https://afdydcdkkqdmqxxgnnjh.supabase.co';
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 
 export default function ChatPage() {
   // Sua lógica vai aqui
   const [mensagem, setMensagem] = React.useState('')
   const [listaDeMensagens, setListaDeMensagens] = React.useState([])
+
+  React.useEffect(() => {
+    supabaseClient
+      .from('mensagens')
+      .select('*')
+      .order('id', { ascending: false })
+      .then(({ data }) => {
+        console.log('Dados da consulta:', data);
+        setListaDeMensagens(data);
+      });
+  }, []);
+
   // ./Sua lógica vai aqui
   function handleNovaMensagem(novaMensagem) {
     const mensagem = {
-      id: listaDeMensagens.length + 1,
-      de: 'italoengdev',
-      texto: novaMensagem
-    }
+      // id: listaDeMensagens.length + 1,
+      de: 'vanessametonini',
+      texto: novaMensagem,
+    };
 
-    setListaDeMensagens([mensagem, ...listaDeMensagens])
-    setMensagem('')
+    supabaseClient
+      .from('mensagens')
+      .insert([
+        // Tem que ser um objeto com os MESMOS CAMPOS que você escreveu no supabase
+        mensagem
+      ])
+      .then(({ data }) => {
+        console.log('Criando mensagem: ', data);
+        setListaDeMensagens([
+          data[0],
+          ...listaDeMensagens,
+        ]);
+      });
+    setMensagem('');
   }
+
 
   return (
     <Box
@@ -181,18 +213,19 @@ function MessageList(props) {
                   display: 'inline-block',
                   marginRight: '10px'
                 }}
-                src={`https://github.com/italoengdev.png`}
+                src={`https://github.com/${mensagem.de}.png`}
               />
-              <Text 
-              tag="strong"
-              styleSheet={{
-                display: 'inline-block',
-                marginRight: '10px',
-                fontSize: '12px',
-                textDecoration:'underline'
-                
-              }}
-              >{mensagem.de}</Text>
+              <Text
+                tag="strong"
+                styleSheet={{
+                  display: 'inline-block',
+                  marginRight: '10px',
+                  fontSize: '12px',
+                  textDecoration: 'underline'
+                }}
+              >
+                {mensagem.de}
+              </Text>
               <Text
                 styleSheet={{
                   fontSize: '10px',
@@ -204,6 +237,7 @@ function MessageList(props) {
               >
                 {new Date().toLocaleDateString()}
               </Text>
+              <DeleteIcon style={{cursor: 'pointer'}} onClick={() => onDelete()}/>
             </Box>
             {mensagem.texto}
           </Text>

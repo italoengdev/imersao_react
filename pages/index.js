@@ -58,8 +58,7 @@ export default function PaginaInicial() {
           alignItems: 'center',
           justifyContent: 'center',
 
-          backgroundImage:
-            'url(https://i.imgur.com/3r445nS.gif)',
+          backgroundImage: 'url(https://i.imgur.com/3r445nS.gif)',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundBlendMode: 'multiply',

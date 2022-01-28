@@ -12,11 +12,15 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@material-ui/core": "^4.12.3",
+    "@mui/icons-material": "^5.3.1",
     "@mui/material": "^5.3.1",
-    "@skynexui/components": "^1.24.0",
+    "@skynexui/components": "^1.24.2",
+    "@supabase/supabase-js": "^1.29.4",
     "next": "^12.0.8",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "user-context": "^1.0.14"
   },
   "repository": "git@github.com:italoengdev/imersao_react.git",
   "author": "italoengdev <italo_saraiva182@hotmail.com>"
