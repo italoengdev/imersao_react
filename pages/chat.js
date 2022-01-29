@@ -2,16 +2,19 @@ import { display, margin } from '@mui/system'
 import { Box, Text, TextField, Image, Button } from '@skynexui/components'
 import React from 'react'
 import appConfig from '../config.json'
+import { useRouter } from 'next/router'
 import { createClient } from '@supabase/supabase-js'
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '@mui/icons-material/Delete'
 
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMzNjA2MiwiZXhwIjoxOTU4OTEyMDYyfQ.jAu58eM3HIc4fQe5td0y5qJfVp1kOaILO7svD-jZlI4';
-const SUPABASE_URL = 'https://afdydcdkkqdmqxxgnnjh.supabase.co';
-const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
+const SUPABASE_ANON_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMzNjA2MiwiZXhwIjoxOTU4OTEyMDYyfQ.jAu58eM3HIc4fQe5td0y5qJfVp1kOaILO7svD-jZlI4'
+const SUPABASE_URL = 'https://afdydcdkkqdmqxxgnnjh.supabase.co'
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 export default function ChatPage() {
   // Sua lógica vai aqui
+  const roteamento = useRouter()
+  const usuarioLogado = roteamento.query.username
   const [mensagem, setMensagem] = React.useState('')
   const [listaDeMensagens, setListaDeMensagens] = React.useState([])
 
@@ -21,18 +24,18 @@ export default function ChatPage() {
       .select('*')
       .order('id', { ascending: false })
       .then(({ data }) => {
-        console.log('Dados da consulta:', data);
-        setListaDeMensagens(data);
-      });
-  }, []);
+        console.log('Dados da consulta:', data)
+        setListaDeMensagens(data)
+      })
+  }, [])
 
   // ./Sua lógica vai aqui
   function handleNovaMensagem(novaMensagem) {
     const mensagem = {
       // id: listaDeMensagens.length + 1,
-      de: 'vanessametonini',
-      texto: novaMensagem,
-    };
+      de: usuarioLogado,
+      texto: novaMensagem
+    }
 
     supabaseClient
       .from('mensagens')
@@ -41,15 +44,11 @@ export default function ChatPage() {
         mensagem
       ])
       .then(({ data }) => {
-        console.log('Criando mensagem: ', data);
-        setListaDeMensagens([
-          data[0],
-          ...listaDeMensagens,
-        ]);
-      });
-    setMensagem('');
+        console.log('Criando mensagem: ', data)
+        setListaDeMensagens([data[0], ...listaDeMensagens])
+      })
+    setMensagem('')
   }
-
 
   return (
     <Box
@@ -237,7 +236,10 @@ function MessageList(props) {
               >
                 {new Date().toLocaleDateString()}
               </Text>
-              <DeleteIcon style={{cursor: 'pointer'}} onClick={() => onDelete()}/>
+              <DeleteIcon
+                style={{ cursor: 'pointer' }}
+                onClick={() => onDelete()}
+              />
             </Box>
             {mensagem.texto}
           </Text>
