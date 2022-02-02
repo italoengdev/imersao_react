@@ -25,18 +25,7 @@ function escutaMensagensEmTempoReal(adicionaMensagem) {
 
 export default function ChatPage() {
   const [mensagem, setMensagem] = React.useState('')
-  const [listaDeMensagens, setListaMensagens] = React.useState([
-    // {
-    //     id:1,
-    //     de: 'italoengdev',
-    //     texto: ':sticker: https://c.tenor.com/byucHnGIMLgAAAAC/henry-cavill-geralt-of-rivia.gif',
-    // },
-    // {
-    //     id:2,
-    //     de: 'peas',
-    //     texto: 'test',
-    // }
-  ])
+  const [listaDeMensagens, setListaDeMensagens] = React.useState([])
   const roteamento = useRouter()
   const usuarioLogado = roteamento.query.username
 
@@ -46,18 +35,52 @@ export default function ChatPage() {
       .select('*')
       .order('id', { ascending: false })
       .then(({ data }) => {
-        console.log('Dados da consulta', data)
-        setListaMensagens(data)
-      })
-    escutaMensagensEmTempoReal()
-  }, [])
+        // console.log('Dados da consulta:', data);
+        setListaDeMensagens(data);
+      });
+
+    const subscription = escutaMensagensEmTempoReal((novaMensagem) => {
+      console.log('Nova mensagem:', novaMensagem);
+      console.log('listaDeMensagens:', listaDeMensagens);
+      // Quero reusar um valor de referencia (objeto/array) 
+      // Passar uma função pro setState
+
+      // setListaDeMensagens([
+      //     novaMensagem,
+      //     ...listaDeMensagens
+      // ])
+      setListaDeMensagens((valorAtualDaLista) => {
+        console.log('valorAtualDaLista:', valorAtualDaLista);
+        return [
+          novaMensagem,
+          ...valorAtualDaLista,
+        ]
+      });
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    }
+  }, []);
 
   function handleNovaMensagem(novaMensagem) {
     const mensagem = {
       // id: listaDeMensagens.length + 1,
       de: usuarioLogado,
-      texto: novaMensagem
-    }
+      texto: novaMensagem,
+    };
+
+    supabaseClient
+      .from('mensagens')
+      .insert([
+        // Tem que ser um objeto com os MESMOS CAMPOS que você escreveu no supabase
+        mensagem
+      ])
+      .then(({ data }) => {
+        console.log('Criando mensagem: ', data);
+      });
+
+    setMensagem('');
   }
 
   function Header() {
