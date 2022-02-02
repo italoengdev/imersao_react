@@ -5,6 +5,7 @@ import appConfig from '../config.json'
 import { useRouter } from 'next/router'
 import { createClient } from '@supabase/supabase-js'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { ButtonSendSticker } from '../src/components/ButtonSendSticker'
 
 const SUPABASE_ANON_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMzNjA2MiwiZXhwIjoxOTU4OTEyMDYyfQ.jAu58eM3HIc4fQe5td0y5qJfVp1kOaILO7svD-jZlI4'
@@ -134,6 +135,10 @@ export default function ChatPage() {
                 color: appConfig.theme.colors.neutrals[200]
               }}
             />
+            <ButtonSendSticker  onStickerClick={(sticker) => {
+                // console.log('[USANDO O COMPONENTE] Salva esse sticker no banco', sticker);
+                handleNovaMensagem(':sticker: ' + sticker);
+              }} />
             <Button
               type="submit"
               label="Enviar"
@@ -241,7 +246,23 @@ function MessageList(props) {
                 onClick={() => onDelete()}
               />
             </Box>
-            {mensagem.texto}
+             {/* [Declarativo] */}
+            {/* Condicional: {mensagem.texto.startsWith(':sticker:').toString()} */}
+            {mensagem.texto.startsWith(':sticker:')
+              ? (
+                <Image src={mensagem.texto.replace(':sticker:', '')} style={{ 
+                  maxWidth: '150px',
+                  maxHeight: '150px'
+                 }} />
+              )
+              : (
+                mensagem.texto
+              )}
+            {/* if mensagem de texto possui stickers:
+                           mostra a imagem
+                        else 
+                           mensagem.texto */}
+            {/* {mensagem.texto} */}
           </Text>
         )
       })}
