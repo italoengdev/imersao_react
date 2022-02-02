@@ -2,8 +2,8 @@ import { Box, Text, TextField, Image, Button } from '@skynexui/components'
 import React from 'react'
 import appConfig from '../config.json'
 import { BiSend } from 'react-icons/bi'
-import { GiBroadsword } from 'react-icons/gi'
-import { FaShareSquare } from 'react-icons/fa'
+import { GiBroadsword,GiMagicPalm } from 'react-icons/gi'
+import { GrLogout } from 'react-icons/gr'
 import { RiDeleteBinLine } from 'react-icons/ri'
 import { createClient } from '@supabase/supabase-js'
 import { useRouter } from 'next/router'
@@ -95,11 +95,11 @@ export default function ChatPage() {
           }}
         >
           <Text variant="heading5">
-            THE WITCHER CHAT {<GiBroadsword size={20} />}
+            THE WITCHER CHAT {<GiBroadsword size={14} />} {<GiMagicPalm size={14} />}
           </Text>
           <Button
             variant="tertiary"
-            label={<FaShareSquare size={18} />}
+            label={<GrLogout size={18} />}
             href="/"
             styleSheet={{
               borderRadius: '5px',
@@ -338,7 +338,7 @@ export default function ChatPage() {
                             //3 parametro: Setar oq vc vai colocar no lugar (não obrigatório)
                             listaDeMensagens.splice(indice, 1)
                             //... juntar um objeto/array com o outro
-                            setListaMensagens([...listaDeMensagens])
+                            setListaDeMensagens([...listaDeMensagens])
                           })
                       }
                     }}
