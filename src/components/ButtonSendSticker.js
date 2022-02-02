@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Button, Text, Image } from '@skynexui/components'
 import appConfig from '../../config.json'
+import {GiShiningSword} from 'react-icons/gi'
 
 export function ButtonSendSticker(props) {
   const [isOpen, setOpenState] = React.useState('')
@@ -29,7 +30,7 @@ export function ButtonSendSticker(props) {
             filter: 'grayscale(0)'
           }
         }}
-        label="😋"
+        label={< GiShiningSword size={20} />}
         onClick={() => setOpenState(!isOpen)}
       />
       {isOpen && (

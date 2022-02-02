@@ -2,15 +2,17 @@ import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React from 'react';
 import appConfig from '../config.json';
 import { BiSend } from 'react-icons/bi';
-import { FaShareSquare, FaSpider } from 'react-icons/fa';
+import {GiBroadsword} from 'react-icons/gi';
+import { FaShareSquare } from 'react-icons/fa';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
 import {ButtonSendSticker} from '../src/components/ButtonSendSticker';
 
 
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMyNTQ4NiwiZXhwIjoxOTU4OTAxNDg2fQ.AhfsDrs5EjNrd569rOAbXuKpbqYpZ40OLiJ8ilGdZOc';
-const SUPABASE_URL = 'https://rjcsmpltyhswflalkqci.supabase.co';
+
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMzNjA2MiwiZXhwIjoxOTU4OTEyMDYyfQ.jAu58eM3HIc4fQe5td0y5qJfVp1kOaILO7svD-jZlI4';
+const SUPABASE_URL = 'https://afdydcdkkqdmqxxgnnjh.supabase.co';
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 function escutaMensagemEmTempoReal(adcionaMensagem){
@@ -91,7 +93,7 @@ export default function ChatPage() {
             <>
                 <Box styleSheet={{ width: '100%', display: 'flex',  alignItems: 'center', justifyContent: 'space-between' }} >
                     <Text variant='heading5'>
-                         MIRANHA {< FaSpider size={20} />} CHAT
+                         THE WITCHER {< GiBroadsword size={20} />} CHAT
                     </Text>
                     <Button
                         variant='tertiary'
@@ -101,12 +103,12 @@ export default function ChatPage() {
                             borderRadius: '5px',
                             minWidth: '42px',
                             minHeight: '42px',
-                            backgroundColor: appConfig.theme.colors.button.buttonBlack,
+                            backgroundColor: 'orange',
                             marginRight: '10px',
                             color: appConfig.theme.colors.neutrals[200],
                         }}
                         buttonColors={{
-                            mainColorLight: appConfig.theme.colors.button.buttonRed,
+                            mainColorLight: 'grey',
                         }}
 
                     />
@@ -119,37 +121,32 @@ export default function ChatPage() {
     return (
         //Background Imagem
         <Box
-            styleSheet={{
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                backgroundImage: `url(https://i2.wp.com/manualdosgames.com/wp-content/uploads/2021/09/Spiderman-2-1170x700.jpg)`, 
-                backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
-                color: appConfig.theme.colors.neutrals['000']
-            }}
+        styleSheet={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundImage: `url(https://i.imgur.com/3r445nS.gif)`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundBlendMode: 'multiply',
+          color: appConfig.theme.colors.neutrals['000']
+        }}
         >
             
             <Box
             //Background transparente
-                styleSheet={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    flex: 1,
-                    boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
-                    borderRadius: '5px',
-                    backgroundColor: appConfig.theme.colors.background.fundoBlack,
-                    height: '100%',
-                    maxWidth: {
-                        md: '70%',
-                        sm: '95%',
-                        xs: '95%',
-                    },
-                    maxHeight: '93vh',
-                    padding: {
-                        md: '40px',
-                        sm: '20px',
-                        xs: '20px',
-                    },
-                    padding: '32px',
-                }}
+            styleSheet={{
+              display: 'flex',
+              flexDirection: 'column',
+              flex: 1,
+              opacity: 0.95,
+              borderRadius: '5px',
+              backgroundColor: appConfig.theme.colors.neutrals[700],
+              height: '100%',
+              maxWidth: '95%',
+              maxHeight: '95vh',
+              padding: '32px'
+            }}
             >
                 {/* Cabeçalho */ }
                 <Header />
@@ -193,14 +190,14 @@ export default function ChatPage() {
                             placeholder="Digite sua mensagem..."
                             type="textarea"
                             styleSheet={{
-                                width: '100%',
-                                height: '40px',
-                                padding: '10px',
-                                resize: 'none',
-                                borderRadius: '2px',
-                                border: '1px solid #800000',
-                                backgroundColor: appConfig.theme.colors.background.fundoBlack,
-                                color: appConfig.theme.colors.neutrals[200]
+                              width: '90%',
+                              border: '0',
+                              resize: 'none',
+                              borderRadius: '5px',
+                              padding: '6px 8px',
+                              backgroundColor: appConfig.theme.colors.neutrals[800],
+                              marginRight: '12px',
+                              color: appConfig.theme.colors.neutrals[200]
                             }}
                             
                         />
@@ -217,7 +214,8 @@ export default function ChatPage() {
                             label={< BiSend size={23} />}
                             type='submit'
                             styleSheet={{
-                                position: 'absolute',
+                                position: 'flex',
+                                marginLeft:'10px',
                                 marginBottom: '6px',
                                 right: '60px',
                                 color: appConfig.theme.colors.neutrals[200],
@@ -228,9 +226,8 @@ export default function ChatPage() {
                           
                             onClick={(event) => {
                                 event.preventDefault();
-                                if (mensagem.length > 0) {
-                                    handleNovaMensagem(mensagem);
-                                }
+                                handleNovaMensagem(mensagem);
+                                
                             }}
                         />
                     </Box>
@@ -268,7 +265,7 @@ export default function ChatPage() {
                                 marginBottom: '5px',
                                 wordWrap: 'word-brek',
                                 hover: {
-                                    backgroundColor: appConfig.theme.colors.background.fundoRed,
+                                    backgroundColor: 'grey',
                                     marginRight: '10px'
                                 }
                             }}
@@ -299,7 +296,15 @@ export default function ChatPage() {
                                         src={`https://github.com/${mensagem.de}.png`}
                                     />
                                     
-                                    <Text tag="strong"
+                                    <Text 
+                                     styleSheet={{
+                                      display: 'inline-block',
+                                      fontSize: '14px',
+                                      marginLeft: '8px',
+                                      color: 'orange',
+                                      textDecoration: 'underline',
+                                      fontWeight: 'bold'
+                                  }} tag="strong"
                                     //Nome do usuário
                                     >
                                         {mensagem.de}
@@ -307,6 +312,7 @@ export default function ChatPage() {
                                     <Text
                                     //Data da mensagem
                                         styleSheet={{
+                                            display: 'inline-block',
                                             fontSize: '10px',
                                             marginLeft: '8px',
                                             color: appConfig.theme.colors.neutrals[300],
