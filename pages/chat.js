@@ -14,6 +14,15 @@ const SUPABASE_ANON_KEY =
 const SUPABASE_URL = 'https://afdydcdkkqdmqxxgnnjh.supabase.co'
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
+function escutaMensagensEmTempoReal(adicionaMensagem) {
+  return supabaseClient
+    .from('mensagens')
+    .on('INSERT', respostaLive => {
+      adicionaMensagem(respostaLive.new)
+    })
+    .subscribe()
+}
+
 export default function ChatPage() {
   const [mensagem, setMensagem] = React.useState('')
   const [listaDeMensagens, setListaMensagens] = React.useState([
@@ -40,24 +49,15 @@ export default function ChatPage() {
         console.log('Dados da consulta', data)
         setListaMensagens(data)
       })
+    escutaMensagensEmTempoReal()
   }, [])
 
   function handleNovaMensagem(novaMensagem) {
-    const mensagemEnviada = {
+    const mensagem = {
       // id: listaDeMensagens.length + 1,
       de: usuarioLogado,
       texto: novaMensagem
     }
-
-    supabaseClient
-      .from('mensagens')
-      .insert([mensagemEnviada])
-      .then(({ data }) => {
-        console.log('Criando Mensagem: ', data)
-        setListaMensagens([data[0], ...listaDeMensagens])
-      })
-
-    setMensagem('')
   }
 
   function Header() {
@@ -72,7 +72,7 @@ export default function ChatPage() {
           }}
         >
           <Text variant="heading5">
-            THE WITCHER {<GiBroadsword size={20} />} CHAT
+            THE WITCHER CHAT {<GiBroadsword size={20} />}
           </Text>
           <Button
             variant="tertiary"
